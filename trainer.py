@@ -75,6 +75,7 @@ print(classification_report(y_test, y_pred3))
 
 print('xgb')
 y_pred4 = model_xgb.predict(X_test2)
+<<<<<<< HEAD
 print(classification_report(y_test_encoded, y_pred4))
 
 #scoring system
@@ -101,3 +102,6 @@ scores = score_bias(text)
 
 for label, score in sorted(scores.items(), key=lambda x: -x[1]):
     print(f"{label}: {score:.2f}")
+=======
+print(classification_report(y_test_encoded, y_pred4))
+>>>>>>> 7e02586d864cb47410bc088881636fa5fb3de652

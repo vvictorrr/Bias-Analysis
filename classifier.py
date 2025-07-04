@@ -20,14 +20,13 @@ print(lastmonth_date)
 keywords = ['abortion', 'trump', 'violence', 'protest', 'immigraton',
             'gun control', 'election', 'war', 'israel', 'corrupt']
 # Init
-newsapi = NewsApiClient(API_KEY)
+newsapi = NewsApiClient(api_key=API_KEY)
 
 '''
 sources = newsapi.get_sources()
 for i in sources['sources']:
     if i['language'] == 'en':
         print(i['id'], i['name'])'''
-
 
 bias_source = {'right': 'fox-news, breitbart-news, the-american-conservative',
                 'right_lean': 'the-washington-times, national-review, financial-post',
