@@ -14,7 +14,7 @@ print(lastmonth_date)
 keywords = ['abortion', 'trump', 'violence', 'protest', 'immigraton',
             'gun control', 'election', 'war', 'israel', 'corrupt']
 # Init
-newsapi = NewsApiClient(api_key='***REMOVED***')
+newsapi = NewsApiClient(api_key=API_KEY)
 
 '''
 sources = newsapi.get_sources()
