@@ -5,6 +5,12 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import requests
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
+
 
 current_date = str(datetime.today().date())
 print(current_date)
@@ -14,7 +20,7 @@ print(lastmonth_date)
 keywords = ['abortion', 'trump', 'violence', 'protest', 'immigraton',
             'gun control', 'election', 'war', 'israel', 'corrupt']
 # Init
-newsapi = NewsApiClient(api_key='***REMOVED***')
+newsapi = NewsApiClient(API_KEY)
 
 '''
 sources = newsapi.get_sources()
@@ -22,41 +28,6 @@ for i in sources['sources']:
     if i['language'] == 'en':
         print(i['id'], i['name'])'''
 
-#source bias
-source_bias = {
-    'Fox News': 'right',
-    'The Daily Caller': 'right',
-    'Breitbart News': 'right',
-    'Newsmax': 'right',
-    'New York Post': 'lean right',
-    'Forbes': 'center',
-    'BBC News': 'center',
-    'Reuters': 'center',
-    'NPR': 'center',
-    'Business Insider': 'center',
-    'DW (English)': 'center',
-    'Yahoo Entertainment': 'lean left',
-    'The Verge': 'lean left',
-    'Gizmodo': 'lean left',
-    'CNN': 'lean left',
-    'ABC News': 'lean left',
-    'The Associated Press': 'center',
-    'Time': 'lean left',
-    'Gizmodo.com': 'lean left',
-    'NBC News': 'lean left',
-    'Al Jazeera English': 'lean left',
-    'Slate Magazine': 'left',
-    'Wired': 'left',
-    'Jezebel': 'left',
-    'MSNBC': 'left',
-    'HuffPost': 'left',
-    'The Guardian': 'left',
-    'The Atlantic': 'left',
-    'The New Yorker': 'left',
-    'The New Yorker': 'left',
-    'Vox': 'left',
-    'Rolling Stone': 'left'
-}
 
 bias_source = {'right': 'fox-news, breitbart-news, the-american-conservative',
                 'right_lean': 'the-washington-times, national-review, financial-post',
@@ -114,70 +85,3 @@ for bias in bias_source.keys():
 
 df = pd.DataFrame(dataset)
 df.to_csv("bias_classification_dataset.csv", index=False)
-
-
-
-'''
-for keyword in keywords:
-    all_articles = newsapi.get_everything(q=keyword,
-                                        from_param=current_date,
-                                        to=lastmonth_date,
-                                        language='en',
-                                        sort_by='relevancy',
-                                        page=1)
-    top100 = all_articles['articles'][:100]
-    for i in top100:
-        joo.append(i['source']['name'])
-
-boo = {}
-for source in joo:
-    if source in boo:
-        boo[source] += 1
-    else:
-        boo[source] = 1
-
-print(boo)'''
-#for keyword in keywords:
-#    all_articles = newsapi.get_everything(q='trump',
-#                                        from_param=current_date,
-#                                        to=lastmonth_date,
-#                                        language='en',
-#                                        sort_by='relevancy',
-#                                        page=1)
-#    top100 = all_articles['articles'][:100]
-#    for i in top100:
-#        print(i['source']['name'])
-#        article = Article(i['url'])
-#        article.download()
-#        article.parse()
-#        print(article.text)
-
-# /v2/top-headlines/sources
-#sources = newsapi.get_sources()
-#top100 = all_articles['articles'][:100]
-#
-#for i in top100:
-#    print(i['source']['name'])
-#    article = Article(i['url'])
-#    article.download()
-#    article.parse()
-#    print(article.text)
-#print(top100)
-
-
-#url = 'https://www.bbc.com/news/articles/cqx28yr8gj1o'
-#article = Article(url)
-#article.download()
-#article.parse()
-#print("**Main Text:**", article.text)
-
-#for i in top100:
-#    print(i['source']['name'])
-#    article = Article(i['url'])
-#    article.download()
-#    article.parse()
-#    print(article.text)
-#for i in top_headlines['articles']:
-#    print('Source:', i['source']['id'])
-#    print(i['content'])
-#    print('-------')

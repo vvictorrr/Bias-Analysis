@@ -76,3 +76,28 @@ print(classification_report(y_test, y_pred3))
 print('xgb')
 y_pred4 = model_xgb.predict(X_test2)
 print(classification_report(y_test_encoded, y_pred4))
+
+#scoring system
+
+y_proba = model3.predict_proba(X_test)
+class_labels = model3.classes_
+
+#for i, probs in enumerate(y_proba[:5]):  # show top 5
+#    print(f"Text {i}:")
+#    for label, prob in zip(class_labels, probs):
+#        print(f"  {label}: {prob:.2f}")
+#    print()
+
+def score_bias(text):
+    cleaned = preprocess(text)
+    vec = vectorizer.transform([cleaned])
+    proba = model3.predict_proba(vec)[0]
+    #class_names = label_encoder.inverse_transform(range(len(proba)))
+    return dict(zip(model3.classes_, proba))
+
+text = "Consider a June Ipsos poll of Democrats, the latest of many surveys showing the Democratic base is unhappy with the state of their party. About half of Democrats are unsatisfied with current leadership, and 62 percent said party leaders should be replaced. This dissatisfaction is historic. Going back to 2009, Democrats havent been this upset with their party before. As noted, the last time a partys base was worked up was during the Republicans Tea Party movement, which culminated in Trumps GOP takeover.Unlike previous moments of Democratic infighting, this divide isnt primarily about ideology. That same June poll found that Democrats want their party to focus more on affordability, on getting the wealthy to pay more on taxes, and health care expansion. Older and younger Democrats are broadly in agreement about prioritizing economic concerns over social issues — and there arent that many differences between what younger and older Democrats want to prioritize."
+
+scores = score_bias(text)
+
+for label, score in sorted(scores.items(), key=lambda x: -x[1]):
+    print(f"{label}: {score:.2f}")
